@@ -197,7 +197,6 @@ namespace PomodoroApp
             else if(PomodoroPhase == PomodoroPhases.ShortBreak)
             {
                 UpdatePomodoroCountTo(++PomodoroCount);
-                UpdatePomodoroCountText();
                 
                 if (PomodoroCount % 4 == 0) // For every 4 pomodoro, take a long break
                 {
