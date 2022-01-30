@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Media;
 using System.Windows;
@@ -39,6 +39,7 @@ namespace PomodoroApp
 
         private static class PomodoroPhaseMessages
         {
+            // Visible on the top-left part of the app.
             public static string WorkMessage = "Work";
             public static string ShortBreakMessage = "Break";
             public static string LongBreakMessage = "Long Break";
@@ -60,11 +61,9 @@ namespace PomodoroApp
         {
             UpdatePomodoroPhaseTo(PomodoroPhases.Work);
 
-            SetTimerValue(PomodoroPhaseDurations.WorkDuration);
-            UpdateTimeLeftText();
+            UpdateTimeLeftTo(PomodoroPhaseDurations.WorkDuration);
 
-            PomodoroCount = 0;
-            UpdatePomodoroCountText();
+            UpdatePomodoroCountTo(0);
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
@@ -73,7 +72,6 @@ namespace PomodoroApp
 
             UpdateTimeLeftText();
         }
-
 
         #region Button Click Events
         private void btnStart_Click(object sender, RoutedEventArgs e)
@@ -95,7 +93,7 @@ namespace PomodoroApp
         #endregion
 
         #region Timer Methods
-        private void SetTimerValue(int minutes)
+        private void SetTimerValueTo(int minutes)
         {
             TimerValue.minutes = minutes;
             TimerValue.seconds = 0;
@@ -145,7 +143,7 @@ namespace PomodoroApp
         }
         #endregion
 
-        #region TextBlock Update Methods
+        #region TextBlock Update Methods - Helper Methods
         private void UpdateTimeLeftText()
         {
             // From https://stackoverflow.com/questions/5972949/number-formatting-how-to-convert-1-to-01-2-to-02-etc/5972961
@@ -156,7 +154,6 @@ namespace PomodoroApp
                 StopTimerAndManageButtons();
 
                 SwitchToNextPomodoroPhase();
-                UpdateTimeLeftText();
 
                 PlayTimerFinishedSound();
             }
@@ -187,47 +184,63 @@ namespace PomodoroApp
         }
         #endregion
 
-        #region Pomodoro Phase Methods
+        #region Pomodoro Phase Method
         private void SwitchToNextPomodoroPhase()
         {
             if (PomodoroPhase == PomodoroPhases.Work)
             {
                 UpdatePomodoroPhaseTo(PomodoroPhases.ShortBreak);
 
-                SetTimerValue(PomodoroPhaseDurations.ShortBreakDuration);
+                UpdateTimeLeftTo(PomodoroPhaseDurations.ShortBreakDuration);
                 
             }
             else if(PomodoroPhase == PomodoroPhases.ShortBreak)
             {
-                PomodoroCount++;
+                UpdatePomodoroCountTo(++PomodoroCount);
                 UpdatePomodoroCountText();
                 
                 if (PomodoroCount % 4 == 0) // For every 4 pomodoro, take a long break
                 {
                     UpdatePomodoroPhaseTo(PomodoroPhases.LongBreak);
 
-                    SetTimerValue(PomodoroPhaseDurations.LongBreakDuration);
+                    UpdateTimeLeftTo(PomodoroPhaseDurations.LongBreakDuration);
                 }
                 else
                 {
                     UpdatePomodoroPhaseTo(PomodoroPhases.Work);
 
-                    SetTimerValue(PomodoroPhaseDurations.WorkDuration);
+                    UpdateTimeLeftTo(PomodoroPhaseDurations.WorkDuration);
                 }
             }
             else if(PomodoroPhase == PomodoroPhases.LongBreak)
             {
                 UpdatePomodoroPhaseTo(PomodoroPhases.Work);
 
-                SetTimerValue(PomodoroPhaseDurations.WorkDuration);
+                UpdateTimeLeftTo(PomodoroPhaseDurations.WorkDuration);
             }
         }
+        #endregion
+
+        #region Update Visually and Programatically
 
         private void UpdatePomodoroPhaseTo(int pomodoroPhaseToSet)
         {
             PomodoroPhase = pomodoroPhaseToSet;
 
             UpdatePomodoroPhaseText();
+        }
+
+        private void UpdateTimeLeftTo(int minutesToSet)
+        {
+            SetTimerValueTo(minutesToSet);
+
+            UpdateTimeLeftText();
+        }
+
+        private void UpdatePomodoroCountTo(int pomodoroCountToSet)
+        {
+            PomodoroCount = pomodoroCountToSet;
+            UpdatePomodoroCountText();
         }
         #endregion
     }
