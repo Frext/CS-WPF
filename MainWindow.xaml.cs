@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Media;
 using System.Windows;
@@ -50,10 +50,7 @@ namespace PomodoroApp
         {
             // Set the pomodor phase to work phase
 
-            viewModel1.PomodoroPhaseString = PomodoroPhaseMessages.WorkMessage;
-
-            SetTimerValueTo(PomodoroPhaseDurationsInMinutes.WorkDuration);
-            UpdateTimeLeftString(PomodoroPhaseDurationsInMinutes.WorkDuration, 0);
+            SetPomodoroPhaseTo(PomodoroPhaseMessages.WorkMessage);
 
             SetPomodoroCountTo(0);
 
@@ -63,6 +60,11 @@ namespace PomodoroApp
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             DecreaseTimerValue();
+
+            if(TimerValue.minutes.Equals(0) && TimerValue.seconds.Equals(0))    // If the timer has ended
+            {
+                StopTimerAndDisableStopButton();
+            }
 
             UpdateTimeLeftString(TimerValue.minutes,TimerValue.seconds);
         }
@@ -116,10 +118,6 @@ namespace PomodoroApp
                     TimerValue.minutes--;
                     TimerValue.seconds = 59;
                 }
-                else
-                {
-                    StopTimerAndDisableStopButton();
-                }
             }
             else
             {
@@ -155,10 +153,7 @@ namespace PomodoroApp
         {
             if (viewModel1.PomodoroPhaseString == PomodoroPhaseMessages.WorkMessage)                    // Work phase -> Short Break phase
             {
-                viewModel1.PomodoroPhaseString = PomodoroPhaseMessages.ShortBreakMessage;
-
-                SetTimerValueTo(PomodoroPhaseDurationsInMinutes.ShortBreakDuration);
-                UpdateTimeLeftString(PomodoroPhaseDurationsInMinutes.ShortBreakDuration, 0);
+                SetPomodoroPhaseTo(PomodoroPhaseMessages.ShortBreakMessage);
             }
             else if(viewModel1.PomodoroPhaseString == PomodoroPhaseMessages.ShortBreakMessage)          // Short Break phase -> Long Break  OR  Work phase
             {
@@ -168,26 +163,17 @@ namespace PomodoroApp
 
                 if (PomodoroCount % 4 == 0)     // For every 4 pomodoro, take a long break                 Short Break phase -> Long Break phase
                 {
-                    viewModel1.PomodoroPhaseString = PomodoroPhaseMessages.LongBreakMessage;
-
-                    SetTimerValueTo(PomodoroPhaseDurationsInMinutes.LongBreakDuration);
-                    UpdateTimeLeftString(PomodoroPhaseDurationsInMinutes.LongBreakDuration, 0);
+                    SetPomodoroPhaseTo(PomodoroPhaseMessages.LongBreakMessage);
                 }
 
                 else                                                                                    // Short Break phase -> Work phase
                 {
-                    viewModel1.PomodoroPhaseString = PomodoroPhaseMessages.WorkMessage;
-
-                    SetTimerValueTo(PomodoroPhaseDurationsInMinutes.WorkDuration);
-                    UpdateTimeLeftString(PomodoroPhaseDurationsInMinutes.WorkDuration, 0);
+                    SetPomodoroPhaseTo(PomodoroPhaseMessages.WorkMessage);
                 }
             }
             else if(viewModel1.PomodoroPhaseString == PomodoroPhaseMessages.LongBreakMessage)           // Long Break phase -> Work phase
             {
-                viewModel1.PomodoroPhaseString = PomodoroPhaseMessages.WorkMessage;
-
-                SetTimerValueTo(PomodoroPhaseDurationsInMinutes.WorkDuration);
-                UpdateTimeLeftString(PomodoroPhaseDurationsInMinutes.WorkDuration, 0);
+                SetPomodoroPhaseTo(PomodoroPhaseMessages.WorkMessage);
             }
         }
 
@@ -196,6 +182,33 @@ namespace PomodoroApp
             PomodoroCount = pomodoroCountToSet;
 
             viewModel1.PomodoroCountString = POMODORO_COUNT_IS + PomodoroCount;
+        }
+
+        private void SetPomodoroPhaseTo(string pomodoroPhaseMessage)
+        {
+            if(pomodoroPhaseMessage == PomodoroPhaseMessages.WorkMessage)
+            {
+                viewModel1.PomodoroPhaseString = PomodoroPhaseMessages.WorkMessage;
+
+                SetTimerValueTo(PomodoroPhaseDurationsInMinutes.WorkDuration);
+                UpdateTimeLeftString(PomodoroPhaseDurationsInMinutes.WorkDuration, 0);
+            }
+
+            else if(pomodoroPhaseMessage == PomodoroPhaseMessages.ShortBreakMessage)
+            {
+                viewModel1.PomodoroPhaseString = PomodoroPhaseMessages.ShortBreakMessage;
+
+                SetTimerValueTo(PomodoroPhaseDurationsInMinutes.ShortBreakDuration);
+                UpdateTimeLeftString(PomodoroPhaseDurationsInMinutes.ShortBreakDuration, 0);
+            }
+
+            else if(pomodoroPhaseMessage == PomodoroPhaseMessages.LongBreakMessage)
+            {
+                viewModel1.PomodoroPhaseString = PomodoroPhaseMessages.LongBreakMessage;
+
+                SetTimerValueTo(PomodoroPhaseDurationsInMinutes.LongBreakDuration);
+                UpdateTimeLeftString(PomodoroPhaseDurationsInMinutes.LongBreakDuration, 0);
+            }
         }
     }
 }
