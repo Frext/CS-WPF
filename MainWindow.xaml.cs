@@ -64,9 +64,15 @@ namespace PomodoroApp
             if(TimerValue.minutes.Equals(0) && TimerValue.seconds.Equals(0))    // If the timer has ended
             {
                 StopTimerAndDisableStopButton();
-            }
+                
+                SwitchToNextPomodoroPhase();
 
-            UpdateTimeLeftString(TimerValue.minutes,TimerValue.seconds);
+                PlayTimerFinishedSound();
+            }
+            else
+            {
+                UpdateTimeLeftString(TimerValue.minutes,TimerValue.seconds);
+            }
         }
 
         #region Button Click Events
@@ -138,13 +144,6 @@ namespace PomodoroApp
         {
             // From https://stackoverflow.com/questions/5972949/number-formatting-how-to-convert-1-to-01-2-to-02-etc/5972961
             viewModel1.TimeLeftString = $"{minutes}:{seconds.ToString("D2")}";    // D2 = 2 Digits
-            
-            if(TimerValue.minutes.Equals(0) && TimerValue.seconds.Equals(0))   // If the timer has ended
-            {
-                SwitchToNextPomodoroPhase();
-
-                PlayTimerFinishedSound();
-            }
         }
 
         #endregion
