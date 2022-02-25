@@ -1,9 +1,10 @@
 using System;
-using System.ComponentModel;
 using System.Media;
+using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Threading;
+
 
 namespace PomodoroApp
 {
@@ -21,7 +22,7 @@ namespace PomodoroApp
         }
         private static class PomodoroPhaseDurationsInMinutes
         {
-            public static int WorkDuration = 25;
+            public static int WorkDuration = 1;
             public static int ShortBreakDuration = 5;
             public static int LongBreakDuration = 15;
         }
@@ -64,15 +65,9 @@ namespace PomodoroApp
             if(TimerValue.minutes.Equals(0) && TimerValue.seconds.Equals(0))    // If the timer has ended
             {
                 StopTimerAndDisableStopButton();
-                
-                SwitchToNextPomodoroPhase();
+            }
 
-                PlayTimerFinishedSound();
-            }
-            else
-            {
-                UpdateTimeLeftString(TimerValue.minutes,TimerValue.seconds);
-            }
+            UpdateTimeLeftString(TimerValue.minutes,TimerValue.seconds);
         }
 
         #region Button Click Events
@@ -144,6 +139,15 @@ namespace PomodoroApp
         {
             // From https://stackoverflow.com/questions/5972949/number-formatting-how-to-convert-1-to-01-2-to-02-etc/5972961
             viewModel1.TimeLeftString = $"{minutes}:{seconds.ToString("D2")}";    // D2 = 2 Digits
+            
+            if(TimerValue.minutes.Equals(0) && TimerValue.seconds.Equals(0))   // If the timer has ended
+            {
+                SwitchToNextPomodoroPhase();
+
+                PlayTimerFinishedSound();
+
+                MakeDesktopIconBlink();
+            }
         }
 
         #endregion
@@ -208,6 +212,18 @@ namespace PomodoroApp
                 SetTimerValueTo(PomodoroPhaseDurationsInMinutes.LongBreakDuration);
                 UpdateTimeLeftString(PomodoroPhaseDurationsInMinutes.LongBreakDuration, 0);
             }
+        }
+        
+        
+        [DllImport("user32")] public static extern int FlashWindow(IntPtr hwnd, bool bInvert);
+        
+        private void MakeDesktopIconBlink()
+        {
+            // Got help from https://stackoverflow.com/questions/5118226/how-to-make-a-wpf-window-to-blink-on-the-taskbar
+
+            WindowInteropHelper wih = new WindowInteropHelper(myWindow);
+            FlashWindow(wih.Handle, true);
+            taskBarItem.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Paused;
         }
     }
 }
