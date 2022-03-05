@@ -1,7 +1,9 @@
 using System;
 using System.Media;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Threading;
 
@@ -10,7 +12,7 @@ namespace PomodoroApp
 {
     public partial class MainWindow : Window
     {
-        private DispatcherTimer dispatcherTimer = new DispatcherTimer();
+        private DispatcherTimer timer1 = new DispatcherTimer();
         private ViewModel viewModel1 = new ViewModel();
 
         private int PomodoroCount = 0;
@@ -22,49 +24,47 @@ namespace PomodoroApp
         }
         private static class PomodoroPhaseDurationsInMinutes
         {
-            public static int WorkDuration = 1;
+            public static int WorkDuration = 0;
             public static int ShortBreakDuration = 5;
             public static int LongBreakDuration = 15;
         }
 
-        private static class PomodoroPhaseMessages   
+        private static class PomodoroPhaseMessages
         {
-            // Visible on the top-left part of the app.
+            // Visible on the top-left corner of the app.
             public static string WorkMessage = "Work";
             public static string ShortBreakMessage = "Break";
             public static string LongBreakMessage = "Long Break";
         }
         public MainWindow()
         {
-            // Set up the dispatcherTimer settings.
-            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            // Set up the timer1 settings.
+            timer1.Tick += new EventHandler(timer1_Tick);
+            timer1.Interval = new TimeSpan(0, 0, 1);
 
             DataContext = viewModel1;
 
             InitializeComponent();
 
-            // First app screen
+            // For the first app screen
             ResetApp();
         }
         private void ResetApp()
         {
-            // Set the pomodor phase to work phase
-
             SetPomodoroPhaseTo(PomodoroPhaseMessages.WorkMessage);
 
             SetPomodoroCountTo(0);
 
-            StopTimerAndDisableStopButton();
+            PauseTimerAndDisablePauseButton();
         }
 
-        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        private void timer1_Tick(object sender, EventArgs e)
         {
             DecreaseTimerValue();
 
             if(TimerValue.minutes.Equals(0) && TimerValue.seconds.Equals(0))    // If the timer has ended
             {
-                StopTimerAndDisableStopButton();
+                PauseTimerAndDisablePauseButton();
             }
 
             UpdateTimeLeftString(TimerValue.minutes,TimerValue.seconds);
@@ -76,9 +76,9 @@ namespace PomodoroApp
             StartTimerAndDisableStartButton();
         }
 
-        private void btnStop_Click(object sender, RoutedEventArgs e)
+        private void btnPause_Click(object sender, RoutedEventArgs e)
         {
-            StopTimerAndDisableStopButton();
+            PauseTimerAndDisablePauseButton();
         }
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
@@ -91,23 +91,23 @@ namespace PomodoroApp
         private void SetTimerValueTo(int minutes)
         {
             TimerValue.minutes = minutes;
-            TimerValue.seconds = 0;
+            TimerValue.seconds = 1;
         }
         
         private void StartTimerAndDisableStartButton()
         {
-            dispatcherTimer.Start();
+            timer1.Start();
 
             btnStart.IsEnabled = false;
-            btnStop.IsEnabled = true;
+            btnPause.IsEnabled = true;
         }
 
-        private void StopTimerAndDisableStopButton()
+        private void PauseTimerAndDisablePauseButton()
         {
-            dispatcherTimer.Stop();
+            timer1.Stop();
 
             btnStart.IsEnabled = true;
-            btnStop.IsEnabled = false;
+            btnPause.IsEnabled = false;
         }
 
         private void DecreaseTimerValue()
@@ -137,7 +137,7 @@ namespace PomodoroApp
         #region Text Update Method
         private void UpdateTimeLeftString(int minutes, int seconds)
         {
-            // From https://stackoverflow.com/questions/5972949/number-formatting-how-to-convert-1-to-01-2-to-02-etc/5972961
+            // Got help from : https://stackoverflow.com/questions/5972949/number-formatting-how-to-convert-1-to-01-2-to-02-etc/5972961
             viewModel1.TimeLeftString = $"{minutes}:{seconds.ToString("D2")}";    // D2 = 2 Digits
             
             if(TimerValue.minutes.Equals(0) && TimerValue.seconds.Equals(0))   // If the timer has ended
@@ -152,6 +152,7 @@ namespace PomodoroApp
 
         #endregion
 
+        #region Pomodoro Methods
         private void SwitchToNextPomodoroPhase()
         {
             if (viewModel1.PomodoroPhaseString == PomodoroPhaseMessages.WorkMessage)                    // Work phase -> Short Break phase
@@ -160,11 +161,11 @@ namespace PomodoroApp
             }
             else if(viewModel1.PomodoroPhaseString == PomodoroPhaseMessages.ShortBreakMessage)          // Short Break phase -> Long Break  OR  Work phase
             {
-                // A work phase and a short break phase is considered a pomodoro
+                // A work phase and a short break phase is counted as a pomodoro
                 SetPomodoroCountTo(PomodoroCount + 1);
 
 
-                if (PomodoroCount % 4 == 0)     // For every 4 pomodoro, take a long break                 Short Break phase -> Long Break phase
+                if (PomodoroCount % 4 == 0)     // For every 4 pomodoros, take a long break                 Short Break phase -> Long Break phase
                 {
                     SetPomodoroPhaseTo(PomodoroPhaseMessages.LongBreakMessage);
                 }
@@ -213,10 +214,10 @@ namespace PomodoroApp
                 UpdateTimeLeftString(PomodoroPhaseDurationsInMinutes.LongBreakDuration, 0);
             }
         }
-        
-        
+#endregion
+
         [DllImport("user32")] public static extern int FlashWindow(IntPtr hwnd, bool bInvert);
-        
+
         private void MakeDesktopIconBlink()
         {
             // Got help from https://stackoverflow.com/questions/5118226/how-to-make-a-wpf-window-to-blink-on-the-taskbar
