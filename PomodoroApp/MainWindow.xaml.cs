@@ -22,7 +22,7 @@ namespace PomodoroApp
         }
         private static class PomodoroPhaseDurationsInMinutes
         {
-            public static int WorkDuration = 0;
+            public static int WorkDuration = 25;
             public static int ShortBreakDuration = 5;
             public static int LongBreakDuration = 15;
         }
@@ -89,7 +89,7 @@ namespace PomodoroApp
         private void SetTimerValueTo(int minutes)
         {
             TimerValue.minutes = minutes;
-            TimerValue.seconds = 1;
+            TimerValue.seconds = 0;
         }
         
         private void StartTimerAndDisableStartButton()
