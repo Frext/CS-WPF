@@ -1,9 +1,7 @@
 using System;
 using System.Media;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Threading;
 
