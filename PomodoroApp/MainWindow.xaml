@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         x:Name="myWindow"
         WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen"
-        Title="Pomodoro Application" Height="450" Width="450" FontFamily="Jetbrains Mono" FontSize="20" MinHeight="450" MinWidth="450" MaxHeight="450" MaxWidth="450" Background="AntiqueWhite">
+        Title="Pomodoro Application" Height="450" Width="450" FontFamily="Jetbrains Mono" FontSize="20" MinHeight="450" MinWidth="450" MaxHeight="600" MaxWidth="700" Background="AntiqueWhite">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -18,24 +18,25 @@
 
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="20*"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="180"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="180*"/>
+            <RowDefinition Height="150*"/>
+            <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock x:Name="tbTimeLeft" Grid.Row="3" Grid.Column="1" FontSize="30" Grid.ColumnSpan="2" TextAlignment="Center" Margin="0 100 0 0" Text="{Binding Path=TimeLeftString}"/>
-        <TextBlock x:Name="tbPomodoroCount" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Path=PomodoroCountString}"/>
-        
-        <TextBlock x:Name="tbPomodoroPhase" Grid.Row="2" Grid.Column="1" TextAlignment="Center" FontSize="20" Margin="20 15 50 0" Text="{Binding Path=PomodoroPhaseString}" Background="Aquamarine"/>
+        <TextBlock x:Name="tbTimeLeft" Grid.Row="3" Grid.Column="1" FontSize="30" Grid.ColumnSpan="2" TextAlignment="Center" Margin="0 100 0 0" Text="{Binding Path=TimeLeftString}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock x:Name="tbPomodoroCount" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Path=PomodoroCountString}" TextAlignment="Left" Margin="0,0,160,0"/>
 
-        <Button x:Name="btnStart" Grid.Row="4" Grid.Column="1" Content="Start" Margin="30 30" Click="btnStart_Click" Background="LightGreen"/>
-        <Button x:Name="btnStop" Grid.Row="4" Grid.Column="2" Content="Stop" Margin="30 30" Click="btnStop_Click" Background="DarkOrange"/>
-        <Button x:Name="btnReset" Grid.Row="1" Grid.Column="2"  Click="btnReset_Click" Background="White" HorizontalAlignment="Right">
+        <TextBlock x:Name="tbPomodoroPhase" Grid.Row="2" Grid.Column="1" TextAlignment="Center" FontSize="20" Margin="20 20 50 0" Text="{Binding Path=PomodoroPhaseString}" Background="Aquamarine"/>
+
+        <Button x:Name="btnStart" Grid.Row="4" Grid.Column="1" Content="Start" Margin="30 30" Click="btnStart_Click" Background="LightGreen" MaxWidth="450" MaxHeight="150"/>
+        <Button x:Name="btnPause" Grid.Row="4" Grid.Column="2" Content="Pause" Margin="30 30" Click="btnPause_Click" Background="DarkOrange" MaxWidth="450" MaxHeight="150"/>
+        
+        <Button x:Name="btnReset" Grid.Row="1" Grid.Column="2" Click="btnReset_Click" Background="White"  VerticalAlignment="Center" HorizontalAlignment="Right">
             <StackPanel>
-                <Image Source="C:\Users\furka\source\repos\PomodoroApp\Resources\reset.jpg" Width="32" Height="32"/>
+                <Image Source="C:\Users\furka\source\repos\PomodoroApp\Resources\reset.jpg" Height="36" Width="36"/>
             </StackPanel>
         </Button>
     </Grid>
