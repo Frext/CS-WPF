@@ -1,4 +1,4 @@
-﻿<Application x:Class="TheatrePlayMusicController.App"
+<Application x:Class="TheatrePlayMusicController.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TheatrePlayMusicController"
@@ -11,5 +11,8 @@
                 </Style>
             </Style.Resources>
         </Style>
+
+        <!--Got help from https://stackoverflow.com/questions/6453640/how-to-include-external-font-in-wpf-application-without-installing-it-->
+        <FontFamily x:Key="Bahnschrift">pack://application:,,,Fonts/#Bahnscrift Light</FontFamily>
     </Application.Resources>
 </Application>
