@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace TheatrePlayMusicController.UserControls
 {
@@ -32,7 +22,7 @@ namespace TheatrePlayMusicController.UserControls
 
         public string SongName { get; set; }
 
-        public string MusicSource { get; set; }
+        public Uri MusicSource { get; set; }
 
         #region Helper Methods
 
