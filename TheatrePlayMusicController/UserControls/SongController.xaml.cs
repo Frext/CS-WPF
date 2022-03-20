@@ -151,7 +151,7 @@ namespace TheatrePlayMusicController.UserControls
                 }
                 else
                 {
-                    MessageBox.Show($"The song file cannot be loaded for \"{SongName}\".\nThe program is going to terminate.", "Error", MessageBoxButton.OK);
+                    MessageBox.Show($"The song file for \"{SongName}\" cannot be loaded.\nThe application will terminate.", "Error", MessageBoxButton.OK);
                     Application.Current.Shutdown();
                 }
             });
