@@ -4,14 +4,6 @@
              xmlns:local="clr-namespace:TheatrePlayMusicController"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style TargetType="Button" x:Key="RoundButton">
-            <Style.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </Style.Resources>
-        </Style>
-
         <!--Got help from https://stackoverflow.com/questions/6453640/how-to-include-external-font-in-wpf-application-without-installing-it-->
         <FontFamily x:Key="Bahnschrift">pack://application:,,,Fonts/#Bahnscrift Light</FontFamily>
     </Application.Resources>
