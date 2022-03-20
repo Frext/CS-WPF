@@ -16,6 +16,11 @@ namespace TheatrePlayMusicController
             songController2.MusicSource = new Uri("Resources/Songs/CarelessWhisper.mp3", UriKind.Relative);
             songController3.MusicSource = new Uri("Resources/Songs/PhoneRingtone.mp3", UriKind.Relative);
             songController4.MusicSource = new Uri(".", UriKind.Relative);
+
+            songController1.SongName = "Bar Music";
+            songController2.SongName = "Careless Whisper";
+            songController3.SongName = "Phone Ringtone";
+            songController4.SongName = ".";
         }
     }
 }
