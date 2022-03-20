@@ -23,9 +23,9 @@
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
-        <local:SongController x:Name="songController1" SongName="Bar Music" Grid.Column="1" Grid.Row="1" />
-        <local:SongController x:Name="songController2" SongName="Careless Whisper"  Grid.Column="1" Grid.Row="3" />
-        <local:SongController x:Name="songController3" SongName="Phone Ringtone"  Grid.Column="3" Grid.Row="1" />
-        <local:SongController x:Name="songController4" SongName="." Grid.Column="3" Grid.Row="3" />
+        <local:SongController x:Name="songController1" Grid.Column="1" Grid.Row="1" />
+        <local:SongController x:Name="songController2" Grid.Column="1" Grid.Row="3" />
+        <local:SongController x:Name="songController3" Grid.Column="3" Grid.Row="1" />
+        <local:SongController x:Name="songController4" Grid.Column="3" Grid.Row="3" />
     </Grid>
 </Window>
