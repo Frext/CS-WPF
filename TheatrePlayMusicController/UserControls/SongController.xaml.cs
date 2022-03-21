@@ -40,20 +40,11 @@ namespace TheatrePlayMusicController.UserControls
 
         #region Helper Methods
 
-        private void StartSong()
-        {
-            meSongPlayer.Play();
-        }
+        private void StartSong() => meSongPlayer.Play();
 
-        private void PauseSong()
-        {
-            meSongPlayer.Pause();
-        }
+        private void PauseSong() => meSongPlayer.Pause();
 
-        private void ResetSong()
-        {
-            meSongPlayer.Stop();
-        }
+        private void ResetSong() => meSongPlayer.Stop();
 
         private void EnablePlayButton_DisablePauseButton()
         {
@@ -67,10 +58,7 @@ namespace TheatrePlayMusicController.UserControls
             btnPauseSong.IsEnabled = true;
         }
 
-        private void SetBorderColorTo(Brush color)
-        {
-            myBorder.BorderBrush = color;
-        }
+        private void SetBorderColorTo(Brush color) => myBorder.BorderBrush = color;
 
         private void StartTimer()
         {
@@ -81,16 +69,9 @@ namespace TheatrePlayMusicController.UserControls
             // If you set it to 0, and click on the buttons with this sequence : Start-Pause-Start, the text block shows 00:00 for one second, and shows the real position after one second.
         }
 
-        private void PauseTimer()
-        {
-            myTimer.Change(Timeout.Infinite,Timeout.Infinite);
-            // Start the timer with an Infinite delay. In other words, don't start it.
-        }
+        private void PauseTimer() => myTimer.Change(Timeout.Infinite, Timeout.Infinite);// Start the timer with an Infinite delay. In other words, don't start it.
 
-        private void UpdateTBTimePassed()
-        {
-            tbTimePassed.Text = meSongPlayer.Position.ToString(@"mm\ \:\ ss");
-        }
+        private void UpdateTBTimePassed() => tbTimePassed.Text = meSongPlayer.Position.ToString(@"mm\ \:\ ss");
         #endregion
 
         private void sldVolumeValue_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -160,9 +141,6 @@ namespace TheatrePlayMusicController.UserControls
 
         }
 
-        private void meSongPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
-        {
-            MessageBox.Show($"An error occured, error message:\n\"{e.ErrorException}\"");
-        }
+        private void meSongPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e) => MessageBox.Show($"An error occured, error message:\n\"{e.ErrorException}\"");
     }
 }
