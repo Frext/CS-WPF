@@ -23,7 +23,7 @@ namespace TheatrePlayMusicController.UserControls
             DataContext = this;
 
             EnablePlayButton_DisablePauseButton();
-
+           
             sldVolumeValue.Value = 50;    // The volume element of MediaElement is set to 0.5 (50) by default. So, we should set the value of the slider to 50 by default.
 
             // Pass the method that will be called in every 1000 milliseconds.
@@ -149,13 +149,20 @@ namespace TheatrePlayMusicController.UserControls
                 {
                     UpdateTBTimePassed();
                 }
+
                 else
                 {
-                    MessageBox.Show($"The song file for \"{SongName}\" cannot be loaded.\nThe application will terminate.", "Error", MessageBoxButton.OK);
+                    PauseTimer();   // If the timer is not paused, this message comes out every second.
+                    MessageBox.Show($"The song file for \"{SongName}\". cannot be loaded.\nThe application will terminate.", "Error", MessageBoxButton.OK);
                     Application.Current.Shutdown();
                 }
             });
 
+        }
+
+        private void meSongPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            MessageBox.Show($"An error occured, error message:\n\"{e.ErrorException}\"");
         }
     }
 }
