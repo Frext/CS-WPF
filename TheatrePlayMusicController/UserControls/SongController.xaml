@@ -24,7 +24,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <MediaElement Name="meSongPlayer" Source="{Binding MusicSource}" LoadedBehavior="Manual" Visibility="Hidden" Grid.RowSpan="2" MediaEnded="meSongPlayer_MediaEnded"/>
+        <MediaElement Name="meSongPlayer" Source="{Binding MusicSource}" LoadedBehavior="Manual" Visibility="Hidden" Grid.RowSpan="2" MediaEnded="meSongPlayer_MediaEnded" MediaFailed="meSongPlayer_MediaFailed"/>
 
         <Border x:Name="myBorder" BorderThickness="1" BorderBrush="White" Margin="5" CornerRadius="20">
             <Grid MinHeight="240" MinWidth="360" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
