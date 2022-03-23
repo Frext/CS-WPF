@@ -60,7 +60,7 @@
                 </Viewbox>
 
                 <Viewbox Stretch="Uniform" MaxHeight="45" Grid.ColumnSpan="4" Grid.Column="1" Grid.Row="1" Margin="0,60,0,5" HorizontalAlignment="Center">
-                    <TextBlock x:Name="tbTimePassed" Text="{Binding PassedTimeWhilePlayingSong}" Style="{StaticResource GeneralTextStyle}" Grid.ColumnSpan="4" Grid.Column="2" Grid.Row="0" Foreground="CornflowerBlue"/>
+                    <TextBlock x:Name="tbTimePassed" Text="00 : 00" Style="{StaticResource GeneralTextStyle}" Grid.ColumnSpan="4" Grid.Column="2" Grid.Row="0" Foreground="CornflowerBlue"/>
                 </Viewbox>
 
                 <Button x:Name="btnPauseSong" Content="II" ToolTip="Pause" Style="{StaticResource GeneralButtonStyle}"  Click="btnPauseSong_Click" Margin="10,10,0,30" Grid.Row="2" Grid.Column="2"/>
