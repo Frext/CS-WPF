@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TheatrePlayMusicController.UserControls"
         mc:Ignorable="d"
-        Title="Theatre Play Music Controller" Height="550" Width="800" MinHeight="500" MinWidth="800" FontFamily="{StaticResource Bahnschrift}" FontSize="25" Background="Black" WindowStartupLocation="CenterScreen">
+        Title="Theatre Play Music Controller" Height="550" Width="800" MinHeight="550" MinWidth="800" FontFamily="{StaticResource Inter}" FontSize="25" Background="Black" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
@@ -26,6 +26,7 @@
         <local:SongController x:Name="songController1" Grid.Column="1" Grid.Row="1" />
         <local:SongController x:Name="songController2" Grid.Column="1" Grid.Row="3" />
         <local:SongController x:Name="songController3" Grid.Column="3" Grid.Row="1" />
-        <local:SongController x:Name="songController4" Grid.Column="3" Grid.Row="3" />
+
+        <Image Source="Resources/Images/freddy.png" Grid.Column="3" Grid.Row="3" />
     </Grid>
 </Window>
