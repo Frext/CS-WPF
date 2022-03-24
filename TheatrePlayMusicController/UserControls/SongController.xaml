@@ -11,22 +11,22 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="TextBlock.TextWrapping" Value="NoWrap"/>
             <Setter Property="TextBlock.TextAlignment" Value="Center"/>
-            <Setter Property="TextBlock.FontFamily" Value="{StaticResource Bahnschrift}"/>
+            <Setter Property="TextBlock.FontFamily" Value="{StaticResource Inter}"/>
         </Style>
 
         <Style x:Key="GeneralButtonStyle" TargetType="Button">
             <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontFamily" Value="{StaticResource Bahnschrift}"/>
+            <Setter Property="FontFamily" Value="{StaticResource Inter}"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            
+
             <Style.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="15"/>
                 </Style>
             </Style.Resources>
         </Style>
-        
+
     </UserControl.Resources>
 
     <Grid>
@@ -51,8 +51,8 @@
 
                 <Slider x:Name="sldVolumeValue" Minimum="0" Maximum="100" Margin="30,30,5,0" Orientation="Horizontal" Cursor="Hand" ValueChanged="sldVolumeValue_ValueChanged" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"/>
 
-                <Viewbox Stretch="Uniform" Margin="0,22,15,0" Grid.Column="5" VerticalAlignment="Top" Height="35">
-                    <TextBlock x:Name="tbVolumeValue" Text="50" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource GeneralTextStyle}"/>
+                <Viewbox Stretch="Uniform" Margin="0,20,15,0" Grid.Column="5" VerticalAlignment="Top" Height="34" Grid.RowSpan="2">
+                    <TextBlock x:Name="tbVolumeValue" Text="50" Style="{StaticResource GeneralTextStyle}"/>
                 </Viewbox>
 
                 <Viewbox Stretch="Uniform" Grid.ColumnSpan="4" Margin="0,15,0,50" MaxHeight="50" Grid.Column="1" VerticalAlignment="Top" Grid.Row="1" >
