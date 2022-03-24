@@ -20,14 +20,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Fonts\Bahnschrift\Bahnschrift.ttf" />
+    <None Remove="Resources\Fonts\Inter-Light.ttf" />
+    <None Remove="Resources\Images\freddy.png" />
   </ItemGroup>
   
 
   <ItemGroup>
-    <Resource Include="Resources\Fonts\Bahnschrift\Bahnschrift.ttf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
+    <Content Include="Resources\Images\freddy.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Songs\CarelessWhisper.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -35,8 +36,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
 	 <Content Include="Resources\Songs\BarMusic.m4a">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	 </Content>
+  </ItemGroup>
+  
+
+  <ItemGroup>
+    <Content Include="Resources\Fonts\Inter-Light.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
