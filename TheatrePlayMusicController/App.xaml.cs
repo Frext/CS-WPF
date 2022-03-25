@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 
 namespace TheatrePlayMusicController
@@ -13,5 +8,23 @@ namespace TheatrePlayMusicController
     /// </summary>
     public partial class App : Application
     {
+        // Got help from https://stackoverflow.com/a/34231251/15555081
+        private static Mutex _mutex = null;
+
+        protected override void OnStartup(StartupEventArgs e) // Just open one single instance at a time.
+        {
+            const string appName = "TheatrePlayMusicController";
+            bool createdNew;
+
+            _mutex = new Mutex(true, appName, out createdNew);
+
+            if (!createdNew)
+            {
+                // App is already running! Exiting the application
+                Application.Current.Shutdown();
+            }
+
+            base.OnStartup(e);
+        }
     }
 }
