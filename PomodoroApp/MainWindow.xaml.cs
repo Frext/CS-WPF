@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Threading;
 
-
 namespace PomodoroApp
 {
     public partial class MainWindow : Window
@@ -16,13 +15,15 @@ namespace PomodoroApp
         private int PomodoroCount = 0;
         private const string POMODORO_COUNT_IS = "Pomodoro Count : ";
 
-        private static class TimerValue{
+        private static class TimerValue
+        {
             public static int seconds;
             public static int minutes;
         }
+
         private static class PomodoroPhaseDurationsInMinutes
         {
-            public static int WorkDuration = 25;
+            public static int WorkDuration = 0;
             public static int ShortBreakDuration = 5;
             public static int LongBreakDuration = 15;
         }
@@ -34,6 +35,7 @@ namespace PomodoroApp
             public static string ShortBreakMessage = "Break";
             public static string LongBreakMessage = "Long Break";
         }
+
         public MainWindow()
         {
             // Set up the timer1 settings.
@@ -47,6 +49,7 @@ namespace PomodoroApp
             // For the first app screen
             ResetApp();
         }
+
         private void ResetApp()
         {
             SetPomodoroPhaseTo(PomodoroPhaseMessages.WorkMessage);
@@ -60,12 +63,12 @@ namespace PomodoroApp
         {
             DecreaseTimerValue();
 
-            if(TimerValue.minutes.Equals(0) && TimerValue.seconds.Equals(0))    // If the timer has ended
+            if (TimerValue.minutes.Equals(0) && TimerValue.seconds.Equals(0)) // If the timer has ended
             {
                 PauseTimerAndDisablePauseButton();
             }
 
-            UpdateTimeLeftString(TimerValue.minutes,TimerValue.seconds);
+            UpdateTimeLeftString(TimerValue.minutes, TimerValue.seconds);
         }
 
         #region Button Click Events
@@ -89,9 +92,9 @@ namespace PomodoroApp
         private void SetTimerValueTo(int minutes)
         {
             TimerValue.minutes = minutes;
-            TimerValue.seconds = 0;
+            TimerValue.seconds = 1;
         }
-        
+
         private void StartTimerAndDisableStartButton()
         {
             timer1.Start();
@@ -123,9 +126,10 @@ namespace PomodoroApp
                 TimerValue.seconds--;
             }
         }
+
         private void PlayTimerFinishedSound()
         {
-            using (var soundPlayer = new SoundPlayer(@"C:\Users\furka\source\repos\PomodoroApp\Resources\finish_sound_effect.wav"))
+            using (var soundPlayer = new SoundPlayer(@"Resources/finish_sound_effect.wav"))
             {
                 soundPlayer.Play();
             }
@@ -136,9 +140,9 @@ namespace PomodoroApp
         private void UpdateTimeLeftString(int minutes, int seconds)
         {
             // Got help from : https://stackoverflow.com/questions/5972949/number-formatting-how-to-convert-1-to-01-2-to-02-etc/5972961
-            viewModel1.TimeLeftString = $"{minutes}:{seconds.ToString("D2")}";    // D2 = 2 Digits
-            
-            if(TimerValue.minutes.Equals(0) && TimerValue.seconds.Equals(0))   // If the timer has ended
+            viewModel1.TimeLeftString = $"{minutes}:{seconds.ToString("D2")}"; // D2 = 2 Digits
+
+            if (TimerValue.minutes.Equals(0) && TimerValue.seconds.Equals(0)) // If the timer has ended
             {
                 SwitchToNextPomodoroPhase();
 
@@ -153,27 +157,25 @@ namespace PomodoroApp
         #region Pomodoro Methods
         private void SwitchToNextPomodoroPhase()
         {
-            if (viewModel1.PomodoroPhaseString == PomodoroPhaseMessages.WorkMessage)                    // Work phase -> Short Break phase
+            if (viewModel1.PomodoroPhaseString == PomodoroPhaseMessages.WorkMessage) // Work phase -> Short Break phase
             {
                 SetPomodoroPhaseTo(PomodoroPhaseMessages.ShortBreakMessage);
             }
-            else if(viewModel1.PomodoroPhaseString == PomodoroPhaseMessages.ShortBreakMessage)          // Short Break phase -> Long Break  OR  Work phase
+            else if (viewModel1.PomodoroPhaseString == PomodoroPhaseMessages.ShortBreakMessage) // Short Break phase -> Long Break  OR  Work phase
             {
                 // A work phase and a short break phase is counted as a pomodoro
                 SetPomodoroCountTo(PomodoroCount + 1);
 
-
-                if (PomodoroCount % 4 == 0)     // For every 4 pomodoros, take a long break                 Short Break phase -> Long Break phase
+                if (PomodoroCount % 4 == 0) // For every 4 pomodoros, take a long break                 Short Break phase -> Long Break phase
                 {
                     SetPomodoroPhaseTo(PomodoroPhaseMessages.LongBreakMessage);
                 }
-
-                else                                                                                    // Short Break phase -> Work phase
+                else // Short Break phase -> Work phase
                 {
                     SetPomodoroPhaseTo(PomodoroPhaseMessages.WorkMessage);
                 }
             }
-            else if(viewModel1.PomodoroPhaseString == PomodoroPhaseMessages.LongBreakMessage)           // Long Break phase -> Work phase
+            else if (viewModel1.PomodoroPhaseString == PomodoroPhaseMessages.LongBreakMessage) // Long Break phase -> Work phase
             {
                 SetPomodoroPhaseTo(PomodoroPhaseMessages.WorkMessage);
             }
@@ -188,23 +190,21 @@ namespace PomodoroApp
 
         private void SetPomodoroPhaseTo(string pomodoroPhaseMessage)
         {
-            if(pomodoroPhaseMessage == PomodoroPhaseMessages.WorkMessage)
+            if (pomodoroPhaseMessage == PomodoroPhaseMessages.WorkMessage)
             {
                 viewModel1.PomodoroPhaseString = PomodoroPhaseMessages.WorkMessage;
 
                 SetTimerValueTo(PomodoroPhaseDurationsInMinutes.WorkDuration);
                 UpdateTimeLeftString(PomodoroPhaseDurationsInMinutes.WorkDuration, 0);
             }
-
-            else if(pomodoroPhaseMessage == PomodoroPhaseMessages.ShortBreakMessage)
+            else if (pomodoroPhaseMessage == PomodoroPhaseMessages.ShortBreakMessage)
             {
                 viewModel1.PomodoroPhaseString = PomodoroPhaseMessages.ShortBreakMessage;
 
                 SetTimerValueTo(PomodoroPhaseDurationsInMinutes.ShortBreakDuration);
                 UpdateTimeLeftString(PomodoroPhaseDurationsInMinutes.ShortBreakDuration, 0);
             }
-
-            else if(pomodoroPhaseMessage == PomodoroPhaseMessages.LongBreakMessage)
+            else if (pomodoroPhaseMessage == PomodoroPhaseMessages.LongBreakMessage)
             {
                 viewModel1.PomodoroPhaseString = PomodoroPhaseMessages.LongBreakMessage;
 
@@ -214,7 +214,8 @@ namespace PomodoroApp
         }
 #endregion
 
-        [DllImport("user32")] public static extern int FlashWindow(IntPtr hwnd, bool bInvert);
+        [DllImport("user32")]
+        public static extern int FlashWindow(IntPtr hwnd, bool bInvert);
 
         private void MakeDesktopIconBlink()
         {
